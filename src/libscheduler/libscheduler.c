@@ -158,13 +158,12 @@ int scheduler_new_job(int job_number, int time, int running_time, int priority)
   priqueue_offer(&jobQueue, newJob);
 
   if(schedScheme == SJF || schedScheme == PRI){
-    job_t *highestPriority = newJob;
     int preemptCore = -1;
 
     for(int i = 0; i < coresNum; i++){
-      int compare = 0;
-      int comparePreemptCore = 0;
+      
       if(coreJobs[i] != NULL){
+        int compare = 0;
         if(schedScheme == SJF){
           compare = comparerSJF(newJob, coreJobs[i]);
           //comparePreemptCore = comparerSJF(coreJobs[i], coreJobs[preemptCore]);
@@ -176,7 +175,6 @@ int scheduler_new_job(int job_number, int time, int running_time, int priority)
         if(compare < 0){
           if(preemptCore == -1 || (schedScheme == SJF ? comparerSJF(coreJobs[i], coreJobs[preemptCore]) > 0 : comparerPRI(coreJobs[i], coreJobs[preemptCore]) > 0)){
             preemptCore = i;
-            highestPriority = newJob;
           }
         }
       }
