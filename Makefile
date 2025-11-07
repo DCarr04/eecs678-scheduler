@@ -25,7 +25,7 @@ CFILELIST = simulator.c libscheduler/libscheduler.c libpriqueue/libpriqueue.c
 HFILELIST = libscheduler/libscheduler.h libpriqueue/libpriqueue.h
 
 # Add libraries that need linked as needed (e.g. -lm -lpthread)
-LIBLIST =
+LIBLIST = -lm -lpthread
 
 # Include locations
 INCLIST = ./src ./src/libscheduler ./src/libpriqueue
