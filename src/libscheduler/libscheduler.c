@@ -39,7 +39,7 @@ int comparerFCFS(const void *x, const void *y){
   job_t *x1 = (job_t *)x; //type cast const void into job_t
   job_t *y1 = (job_t *)y;
   
-  return x1->arrivalTime - y1->arrivalTime;
+  return y1->arrivalTime - x1->arrivalTime;
 }
 
 int comparerSJF(const void *x, const void *y){
@@ -47,9 +47,9 @@ int comparerSJF(const void *x, const void *y){
   job_t *y1 = (job_t *)y;
 
   if(y1->burstTime == x1->burstTime){
-    return x1->arrivalTime - y1->arrivalTime;
+    return y1->arrivalTime - x1->arrivalTime;
   }else{
-    return x1->burstTime - y1->burstTime;
+    return y1->burstTime - x1->burstTime;
   }
 }
 
@@ -61,9 +61,9 @@ int comparerPRI(const void *x, const void *y){
   job_t *x1 = (job_t *)x;
   job_t *y1 = (job_t *)y;
   if(y1->priority == x1->priority){
-    return x1->arrivalTime - y1->arrivalTime;
+    return y1->arrivalTime - x1->arrivalTime;
   }else{
-    return x1->priority - y1->priority;
+    return y1->priority - x1->priority;
   }
 }
 
