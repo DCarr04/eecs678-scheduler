@@ -97,7 +97,7 @@ void scheduler_start_up(int cores, scheme_t scheme)
     priqueue_init(&jobQueue, comparerSJF);
   }
 
-  jobsCapacity = 0;
+  jobsCapacity = 10;
   totalJobs = 0;
   trackJobs = malloc(sizeof(job_t *) * jobsCapacity);
 
@@ -144,7 +144,8 @@ int scheduler_new_job(int job_number, int time, int running_time, int priority)
     jobsCapacity = jobsCapacity * 2;
     trackJobs = realloc(trackJobs, sizeof(job_t *) * jobsCapacity);
   }
-  trackJobs[totalJobs + 1] = newJob;
+  trackJobs[totalJobs] = newJob;
+  totalJobs++;
 
   for(int i = 0; i < coresNum; i++){
     if(coreJobs[i] == NULL){
@@ -176,9 +177,23 @@ int scheduler_new_job(int job_number, int time, int running_time, int priority)
         
         //(schedScheme == SJF ? comparerSJF(coreJobs[i], coreJobs[preemptCore]) > 0 : comparerPRI(coreJobs[i], coreJobs[preemptCore]) > 0)
         if(compare < 0){
-          if(preemptCore == -1 || comparePreemptCore > 0){
+          if(preemptCore == -1){
             preemptCore = i;
+          }else{
+            if(schedScheme == SJF){
+              comparePreemptCore = comparerSJF(coreJobs[i], coreJobs[preemptCore]);
+            }else{
+              comparePreemptCore = comparerPRI(coreJobs[i], coreJobs[preemptCore]);
+            }
+
+            if(comparePreemptCore > 0){
+              preemptCore = i;
+            }
+
           }
+          /*if(preemptCore == -1 || comparePreemptCore > 0){
+            preemptCore = i;
+          }*/
         }
       }
     }
