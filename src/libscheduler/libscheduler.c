@@ -175,7 +175,6 @@ int scheduler_new_job(int job_number, int time, int running_time, int priority)
           comparePreemptCore = comparerPRI(coreJobs[i], coreJobs[preemptCore]);
         }
         
-        //(schedScheme == SJF ? comparerSJF(coreJobs[i], coreJobs[preemptCore]) > 0 : comparerPRI(coreJobs[i], coreJobs[preemptCore]) > 0)
         if(compare < 0){
           if(preemptCore == -1){
             preemptCore = i;
@@ -189,11 +188,7 @@ int scheduler_new_job(int job_number, int time, int running_time, int priority)
             if(comparePreemptCore > 0){
               preemptCore = i;
             }
-
           }
-          /*if(preemptCore == -1 || comparePreemptCore > 0){
-            preemptCore = i;
-          }*/
         }
       }
     }
@@ -240,7 +235,6 @@ int scheduler_job_finished(int core_id, int job_number, int time)
 
   job_t *finishedJob = coreJobs[core_id];
   finishedJob->completionTime = time;
-  //coreJobs[core_id] = NULL;
   if(finishedJob->jobID == job_number){
     priqueue_remove(&jobQueue, finishedJob);
   }
@@ -248,7 +242,7 @@ int scheduler_job_finished(int core_id, int job_number, int time)
 
 
   if(priqueue_size(&jobQueue) > 0){
-    job_t *nextScheduled = priqueue_poll(&jobQueue); //XX comeback check
+    job_t *nextScheduled = priqueue_poll(&jobQueue);
     coreJobs[core_id] = nextScheduled;
     nextScheduled->coreID = core_id;
     if(nextScheduled->startTime == -1){
@@ -290,7 +284,7 @@ int scheduler_quantum_expired(int core_id, int time)
 
     currentJob->coreID = -1;
 
-    job_t *nextScheduled = priqueue_poll(&jobQueue);
+    job_t *nextScheduled = priqueue_peek(&jobQueue);
     coreJobs[core_id] = nextScheduled;
     nextScheduled->coreID = core_id;
     if(nextScheduled->startTime == -1){
