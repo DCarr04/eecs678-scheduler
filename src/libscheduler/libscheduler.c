@@ -240,7 +240,7 @@ int scheduler_job_finished(int core_id, int job_number, int time)
 
   job_t *finishedJob = coreJobs[core_id];
   finishedJob->completionTime = time;
-  coreJobs[core_id] = NULL;
+  //coreJobs[core_id] = NULL;
   if(finishedJob->jobID == job_number){
     priqueue_remove(&jobQueue, finishedJob);
   }
