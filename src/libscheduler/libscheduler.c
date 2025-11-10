@@ -92,9 +92,9 @@ void scheduler_start_up(int cores, scheme_t scheme)
   }else if(scheme == PRI){
     priqueue_init(&jobQueue, comparerPRI);
   }else if(scheme == PPRI){
-    priqueue_init(&jobQueue, comparerPRI);
+    priqueue_init(&jobQueue, comparerFCFS); //PRI
   }else if(scheme == PSJF){
-    priqueue_init(&jobQueue, comparerSJF);
+    priqueue_init(&jobQueue, comparerFCFS); //SJF
   }
 
   jobsCapacity = 10;
