@@ -167,7 +167,7 @@ int scheduler_new_job(int job_number, int time, int running_time, int priority)
         int compare = 0;
         int comparePreemptCore = 0;
 
-        if(schedScheme == SJF){
+        if(schedScheme == PSJF){
           compare = comparerSJF(newJob, coreJobs[i]);
           comparePreemptCore = comparerSJF(coreJobs[i], coreJobs[preemptCore]);
         }else{
@@ -179,7 +179,7 @@ int scheduler_new_job(int job_number, int time, int running_time, int priority)
           if(preemptCore == -1){
             preemptCore = i;
           }else{
-            if(schedScheme == SJF){
+            if(schedScheme == PSJF){
               comparePreemptCore = comparerSJF(coreJobs[i], coreJobs[preemptCore]);
             }else{
               comparePreemptCore = comparerPRI(coreJobs[i], coreJobs[preemptCore]);
